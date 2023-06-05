@@ -2,7 +2,7 @@
 
 
    ```markdown
-   This script automates the VLAN configuration on Aruba switches. It connects to a list of switches, creates a new VLAN with a specified VLAN ID and name, and configures the tagged ports for the VLAN.
+   This script automates the VLAN configuration on Aruba switches. It connects to a list of switches, creates a new VLAN with a specified VLAN ID and name, and configures the tagged ports for the VLAN. the goal of this project to be a tool box with the most needed things in prod environment 
 
    **Prerequisites:**
    -any aruba switch beside CX ( i will add them soon )
