@@ -5,6 +5,7 @@
    This script automates the VLAN configuration on Aruba switches. It connects to a list of switches, creates a new VLAN with a specified VLAN ID and name, and configures the tagged ports for the VLAN.
 
    **Prerequisites:**
+   -any aruba switch beside CX ( i will add them soon )
    - Python 3.x
    - Required Python libraries: `colorama`, `netmiko`
    - Input file: `anything.txt` (containing a list of IP addresses of the switches)
