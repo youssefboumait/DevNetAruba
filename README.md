@@ -7,7 +7,7 @@
    **Prerequisites:**
    - Python 3.x
    - Required Python libraries: `colorama`, `netmiko`
-   - Input file: `SOLARWINDS_IPs.txt` (containing a list of IP addresses of the switches)
+   - Input file: `anything.txt` (containing a list of IP addresses of the switches)
 
    Please make sure to have the necessary dependencies installed and provide the switch IP addresses in the input file before running the script.
    ```
