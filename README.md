@@ -95,9 +95,7 @@ if __name__ == "__main__":
     print(f"it took {elapsed_time} to finish the operation")
 ```
 
-Ensure that the script file and the
 
- TXT file containing the list of switches are in the same directory.
 
 ## Conclusion
 The Network Automation project simplifies the configuration of VLANs and trunk interfaces in Aruba switches. By automating these processes, it reduces manual effort, improves efficiency, and helps maintain a consistent network setup. Feel free to explore and customize the project according to your specific network requirements.
