@@ -1,50 +1,103 @@
-# DevNetAruba
+# Network Automation Project Documentation
 
+## Introduction
+This documentation provides an overview and usage instructions for the Network Automation project. The project focuses on automating the creation of VLANs and tagging of trunk interfaces in Aruba switches. By leveraging the power of automation, it aims to streamline network configuration and reduce manual efforts.
 
-   ```markdown
-   This script automates the VLAN configuration on Aruba switches. It connects to a list of switches, creates a new VLAN with a specified VLAN ID and name, and configures the tagged ports for the VLAN. the goal of this project to be a tool box with the most needed things in prod environment 
+## Requirements
+To run the Network Automation project, ensure that the following requirements are met:
 
-   **Prerequisites:**
-   -any aruba switch beside CX ( i will add them soon )
-   - Python 3.x
-   - Required Python libraries: `colorama`, `netmiko`
-   - Input file: `anything.txt` (containing a list of IP addresses of the switches)
+- Python 3.x installed on the system.
+- The required Python packages: `multiprocessing`, `functools`, `colorama`, `netmiko`.
+  - You can install the dependencies using the following command: `pip install -r requirements.txt`
+- Access to Aruba switches with appropriate credentials.
 
-   Please make sure to have the necessary dependencies installed and provide the switch IP addresses in the input file before running the script.
+## Usage
+1. Clone the project repository from GitHub using the following command:
+   ```
+   git clone [repository_link]
    ```
 
-   ```markdown
-   **Script Steps:**
-   - Prompt the user to enter their username and password.
-   - Validate the VLAN ID and name entered by the user.
-   - Read the list of switch IP addresses from the input file.
-   - Connect to each switch, retrieve the output of the "show trunks" command, and extract the TRK groups.
-   - Create the specified VLAN on each switch and give it a name.
-   - Tag the TRK groups with the newly created VLAN.
-   - Retrieve and print the tagged ports for the VLAN on each switch.
+2. Install the project dependencies by running the following command:
+   ```
+   pip install -r requirements.txt
    ```
 
-
-
-   ```markdown
-   ## Running the Script
-
-   1. Ensure that the required Python libraries (`colorama`, `netmiko`) are installed. You can install them using `pip`:
-
-      ```shell
-      pip install colorama netmiko
-      ```
-
-   2. Prepare the input file with the list of switch IP addresses. Each IP address should be on a separate line.
-
-   3. Run the script using Python:
-
-      ```shell
-      python script.py
-      ```
-
-   4. Follow the prompts to provide your username, password,path, VLAN ID, and VLAN name.
-
-   Please note that the script may take some time to execute, depending on the number of switches and network conditions. Ensure that the user running the script has the necessary permissions and network connectivity to the switches.
+3. Import the necessary modules and libraries into your Python script:
+   ```python
+   import multiprocessing
+   from functools import partial
+   import colorama
+   from netmiko import ConnectHandler
+   import getpass
+   import re
+   import time
+   import os
    ```
 
+4. Define the `configure_switch` function in your script. This function handles the automation process for each switch. It takes the following parameters:
+   - `switch_ip`: IP address of the Aruba switch.
+   - `user`: Username for accessing the switch.
+   - `password`: Password for accessing the switch.
+   - `vlan_id`: VLAN ID to be created and tagged.
+   - `vlan_name`: Name for the VLAN.
+
+   ```python
+   def configure_switch(switch_ip, user, password, vlan_id, vlan_name):
+       # Implementation of switch configuration automation
+   ```
+
+5. Customize the implementation of the `configure_switch` function according to your network requirements. The function establishes a connection to the switch, retrieves relevant information, creates the VLAN, tags trunk interfaces, and retrieves tagged ports information.
+
+6. At the end of your script, within the `if __name__ == "__main__":` block, set up the necessary inputs and execute the automation process.
+   ```python
+   if __name__ == "__main__":
+       # Setup and execute automation process
+   ```
+
+7. Run the script using the Python interpreter, and follow the prompts to provide the required inputs during execution.
+
+## Example Usage
+To illustrate the usage of the Network Automation project, here's an example of a script:
+
+```python
+import multiprocessing
+from functools import partial
+import colorama
+from netmiko import ConnectHandler
+import getpass
+import re
+import time
+import os
+
+# Function definitions and script implementation...
+
+if __name__ == "__main__":
+    # Prompt for user inputs
+    user = input("Type your username: ")
+    password = getpass.getpass()
+    path = input("Enter the path of the TXT file without the '': ")
+    vlan_id = input("Enter VLAN ID: ")
+    vlan_name = input("Enter the VLAN name: ")
+
+    # Switch list retrieval from file...
+
+    # Create a partial function with fixed arguments for configure_switch
+    partial_configure_switch = partial(configure_switch, user=user, password=password, vlan_id=vlan_id,
+                                       vlan_name=vlan_name)
+
+    # Use multiprocessing Pool to process switches in parallel
+    with multiprocessing.Pool() as pool:
+        pool.map(partial_configure_switch, switchlist)
+
+    # Additional processing and output...
+
+    elapsed_time = time.process_time() - t
+    print(f"it took {elapsed_time} to finish the operation")
+```
+
+Ensure that the script file and the
+
+ TXT file containing the list of switches are in the same directory.
+
+## Conclusion
+The Network Automation project simplifies the configuration of VLANs and trunk interfaces in Aruba switches. By automating these processes, it reduces manual effort, improves efficiency, and helps maintain a consistent network setup. Feel free to explore and customize the project according to your specific network requirements.
