@@ -24,6 +24,7 @@ def configure_switch(switch_ip, user, password, vlan_id, vlan_name):
         # Get output of the command "show trunks"
         value = "show trunks"
         output = net_connect.send_command(value)
+        output.splitlines()
 
         # Get TRK groups from the output
         data = []
