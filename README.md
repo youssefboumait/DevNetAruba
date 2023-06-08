@@ -149,7 +149,7 @@ The user is prompted to enter the VLAN name. The input is validated to ensure it
 
 The script attempts to read the text file specified by the user and populate a list called `switchlist` with the IP addresses of the switches. If the file is not found, an error message is displayed, and the script exits.
 
-```python
+```python 
     partial_configure_switch = partial(find_type, user=user, password=password, vlan_id=vlan_id,
                                        vlan_name=vlan_name)
 ```
