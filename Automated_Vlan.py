@@ -8,6 +8,35 @@ import time
 import os
 
 
+def find_type(switch_ip, user, password, vlan_id, vlan_name):
+    print(f"Connecting to switch to find its type: {switch_ip}...\n")
+    try:
+        # Connect to the switch
+        arubaswitch = {
+            "device_type": "aruba_osswitch",
+            "ip": switch_ip.strip(),
+            "username": user,
+            "password": password,
+        }
+        net_connect = ConnectHandler(**arubaswitch)
+
+        # Get output of the command "show version"
+        value = "show version"
+        output = net_connect.send_command(value)
+
+        # Look for "ArubaOS-CX" in the output
+        pattern = r"ArubaOS-CX"
+        matches = re.findall(pattern, output)
+
+        if matches:
+            configure_cx_switch(switch_ip, user, password, vlan_id, vlan_name)
+        else:
+            configure_switch(switch_ip, user, password, vlan_id, vlan_name)
+
+    except Exception as e:
+        print(f"Error occurred while configuring switch with IP {switch_ip}: {str(e)}")
+
+
 def configure_switch(switch_ip, user, password, vlan_id, vlan_name):
     try:
         print(f"Connecting to switch {switch_ip}...\n")
@@ -67,6 +96,39 @@ def configure_switch(switch_ip, user, password, vlan_id, vlan_name):
         print(f"Error occurred while configuring switch with IP {switch_ip}: {str(e)}")
 
 
+def configure_cx_switch(switch_ip, user, password, vlan_id, vlan_name):
+    try:
+        print(f"it's a CX switch {switch_ip} executing the operation ...\n")
+
+        # Connect to the switch
+        arubaswitch = {
+            "device_type": "aruba_osswitch",
+            "ip": switch_ip.strip(),
+            "username": user,
+            "password": password,
+        }
+        net_connect = ConnectHandler(**arubaswitch)
+        # Create the VLAN and give it a name
+        vlan_conf = [
+            'conf t',
+            f'vlan {vlan_id}',
+            f'name {vlan_name}',
+            'exit'
+        ]
+        net_connect.send_config_set(vlan_conf)
+
+        # Retrieve and print the tagged ports for the VLAN
+
+        tagged_ports = net_connect.send_command(f"show vlan {vlan_id}")
+        print(f"********************************tagged ports by VLAN {vlan_name}***********************************\n")
+        print(colorama.Fore.WHITE + tagged_ports)
+
+        net_connect.disconnect()
+
+    except Exception as e:
+        print(f"Error occurred while configuring switch with IP {switch_ip}: {str(e)}")
+
+
 if __name__ == "__main__":
     t = time.process_time()
     # do some stuff
@@ -98,7 +160,7 @@ by Youssef BOUMAIT \n
     password = getpass.getpass()
 
     while True:
-        path = input("Enter the path of the TXT file without the "" : ")
+        path = input("Enter the path of the TXT file without the \"\" : ")
         if os.path.exists(path):
             break
         else:
@@ -136,7 +198,7 @@ by Youssef BOUMAIT \n
         exit()
 
     # Create a partial function with fixed arguments for configure_switch
-    partial_configure_switch = partial(configure_switch, user=user, password=password, vlan_id=vlan_id,
+    partial_configure_switch = partial(find_type, user=user, password=password, vlan_id=vlan_id,
                                        vlan_name=vlan_name)
 
     # Use multiprocessing Pool to process switches in parallel
