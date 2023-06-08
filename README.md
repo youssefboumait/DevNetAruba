@@ -6,6 +6,7 @@ This documentation provides an overview and usage instructions for the Network A
 ## Requirements
 To run the Network Automation project, ensure that the following requirements are met:
 
+- Aruba's none CX switches
 - Python 3.x installed on the system.
 - The required Python packages: `multiprocessing`, `functools`, `colorama`, `netmiko`.
   - You can install the dependencies using the following command: `pip install -r requirements.txt`
