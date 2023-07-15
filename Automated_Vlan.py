@@ -205,5 +205,7 @@ by Youssef BOUMAIT \n
     with multiprocessing.Pool() as pool:
         pool.map(partial_configure_switch, switchlist)
 
+    # counting elapsed time during the execution
+
     elapsed_time = time.process_time() - t
     print(f"it took {elapsed_time} to finish the operation")
