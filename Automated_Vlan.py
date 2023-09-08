@@ -83,6 +83,7 @@ def configure_switch(switch_ip, user, password, vlan_id, vlan_name):
                 'exit'
             ]
             net_connect.send_config_set(config_TRK)
+            net_connect.save_config()
 
         # Retrieve and print the tagged ports for the VLAN
         tagged_ports = net_connect.send_command(f"show vlan {vlan_id}")
@@ -116,6 +117,7 @@ def configure_cx_switch(switch_ip, user, password, vlan_id, vlan_name):
             'exit'
         ]
         net_connect.send_config_set(vlan_conf)
+        net_connect.save_config()
 
         # Retrieve and print the tagged ports for the VLAN
 
