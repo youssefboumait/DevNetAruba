@@ -53,17 +53,21 @@ def configure_switch(switch_ip, user, password, vlan_id, vlan_name):
         # Get output of the command "show trunks"
         value = "show trunks"
         output = net_connect.send_command(value)
-        output.splitlines()
+        lines = output.split('\n')
 
         # Get TRK groups from the output
         data = []
-        for line in output:
+        for line in lines:
             match = re.search(r'(\S+)\s+LACP', line)
             if match:
                 data.append(match.group(1))
 
         # Remove duplicates from data
-        data = list(dict.fromkeys(data))
+        data = list(set(data))
+
+        # Remove duplicates from data
+        
+        print(data)
 
         # Create the VLAN and give it a name
         vlan_conf = [
